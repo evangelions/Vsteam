@@ -3,12 +3,12 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math/rand"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
-
 	"resty.dev/v3"
 )
 
@@ -48,11 +48,9 @@ func getAllSessions() ([]string, string) {
 	if err != nil {
 		return nil, ""
 	}
-
 	var sessions []string
 	var latestSession string
 	maxSession := 0
-
 	for _, file := range files {
 		if file.IsDir() {
 			sessionName := file.Name()
@@ -78,11 +76,9 @@ func readTargets(filename string) ([]string, int, error) {
 		return nil, 0, err
 	}
 	defer file.Close()
-
 	var ids []string
 	scanner := bufio.NewScanner(file)
 	progress := 0
-
 	if scanner.Scan() {
 		firstLine := strings.TrimSpace(scanner.Text())
 		if strings.HasPrefix(firstLine, "Progress:") {
@@ -94,14 +90,12 @@ func readTargets(filename string) ([]string, int, error) {
 			ids = append(ids, firstLine)
 		}
 	}
-
 	for scanner.Scan() {
 		id := strings.TrimSpace(scanner.Text())
 		if id != "" {
 			ids = append(ids, id)
 		}
 	}
-
 	return ids, progress, scanner.Err()
 }
 
@@ -124,38 +118,64 @@ func showSplash() {
                                                                                                                         
 ------------------------------------------------------------------------------------------------------------------------` + Green + `
 STEAM ID AVAILABILITY CHECKER — v - @maakima on IG
-
-This software will check for IDs inside "` + Blue + `targets.txt` + Green + `" feel free to replace the content of this file with a list of IDs
+This software will check for IDs inside "` + Blue + `targets.txt` + Green + `" replace the content of this txtt file with a list of IDs
 you want to check!
-
-I also recommend you to run the targets.txt file through a randomizer so you're not checking 
-the usernames in alphabetic order` + Green + `
+` + Red + `
 ------------------------------------------------------------------------------------------------------------------------` + Reset)
 }
 
+// NEW FUNCTION — generates random 3 & 4 letter Steam IDs
+func generateRandomIDs() {
+	const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-"
+	rand.Seed(time.Now().UnixNano())
+
+	var ids []string
+	// 3-letter
+	for i := 0; i < 25000; i++ {
+		id := string(chars[rand.Intn(len(chars))]) +
+			string(chars[rand.Intn(len(chars))]) +
+			string(chars[rand.Intn(len(chars))])
+		ids = append(ids, id)
+	}
+	// 4-letter
+	for i := 0; i < 50000; i++ {
+		id := string(chars[rand.Intn(len(chars))]) +
+			string(chars[rand.Intn(len(chars))]) +
+			string(chars[rand.Intn(len(chars))]) +
+			string(chars[rand.Intn(len(chars))])
+		ids = append(ids, id)
+	}
+
+	content := strings.Join(ids, "\n") + "\n"
+	err := os.WriteFile("targets.txt", []byte(content), 0644)
+	if err != nil {
+		fmt.Println(Red+"Failed to write targets.txt:"+Reset, err)
+	} else {
+		fmt.Println(Green + "Generated 75,000 random 3 & 4 character IDs → targets.txt" + Reset)
+	}
+	pauseTerminal()
+}
+
 func main() {
-
 	showSplash()
-
 	sessions, latestSession := getAllSessions()
-
 	fmt.Println(Cyan + "\n-> Existing sessions:" + Reset)
 	for _, session := range sessions {
 		if session == latestSession {
-			fmt.Printf("  - %s"+Blue+" (LATEST SESSION)\n"+Reset, session)
+			fmt.Printf(" - %s"+Blue+" (LATEST SESSION)\n"+Reset, session)
 		} else {
-			fmt.Printf("  - %s\n", session)
+			fmt.Printf(" - %s\n", session)
 		}
 	}
-
 	fmt.Println(Red + `
 +-----------------------+
 |` + Green + ` 1. Start New Session` + Red + `  |
 |` + Green + ` 2. Resume Session` + Red + `     |
 |` + Green + ` 3. Exit` + Red + `               |
+|` + Green + ` 4. Generate Random IDs` + Red + `|
 +-----------------------+` + Reset)
-	fmt.Print(Cyan + "\n-> Choose an option" + Reset + ": ")
 
+	fmt.Print(Cyan + "\n-> Choose an option" + Reset + ": ")
 	var choice string
 	fmt.Scanln(&choice)
 
@@ -180,6 +200,9 @@ func main() {
 	case "3":
 		fmt.Println(Red + "Exiting program. Hope you found some good IDs!" + Reset)
 		os.Exit(0)
+	case "4":
+		generateRandomIDs()
+		return // exits after generating so user can run again and start checking
 	default:
 		fmt.Println(Red + "Invalid choice. Please restart the program." + Reset)
 		return
@@ -191,7 +214,6 @@ func main() {
 			pauseTerminal()
 			return
 		}
-
 		input, err := os.ReadFile("targets.txt")
 		if err != nil {
 			fmt.Println(Red+"Error reading targets.txt (this is really weird, make sure controlled folder access isnt blocking the program or that you arent running from a place where the program doesnt have permission to write.):"+Reset, err)
@@ -204,20 +226,17 @@ func main() {
 			return
 		}
 	}
-
 	ids, progress, err := readTargets(targetsPath)
 	if err != nil {
 		fmt.Println(Red+"Error reading targets file (this is really weird, make sure controlled folder access isnt blocking the program or that you arent running from a place where the program doesnt have permission to write.):"+Reset, err)
 		pauseTerminal()
 		return
 	}
-
 	if progress >= len(ids) {
 		fmt.Println(Green + "All IDs have already been checked!" + Reset)
 		pauseTerminal()
 		return
 	}
-
 	file, err := os.OpenFile(outputPath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		fmt.Println(Red+"Error creating/opening output file (this is really weird, make sure controlled folder access isnt blocking the program or that you arent running from a place where the program doesnt have permission to write.):"+Reset, err)
@@ -225,9 +244,7 @@ func main() {
 		return
 	}
 	defer file.Close()
-
 	fmt.Println(Cyan + "\nChecking Steam IDs...\n" + Reset)
-
 	for i := progress; i < len(ids); i++ {
 		id := ids[i]
 		if !checkID(id) {
@@ -236,12 +253,10 @@ func main() {
 		} else {
 			fmt.Printf(Red+"Not available: %s\n"+Reset, id)
 		}
-
 		if err := updateProgress(targetsPath, i+1, ids); err != nil {
 			fmt.Println(Red+"Failed to update progress:"+Reset, err)
 		}
 	}
-
 	fmt.Println(Green + "\nCheck completed. Available IDs saved to " + outputPath + Reset)
 	pauseTerminal()
 }
