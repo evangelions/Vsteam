@@ -126,7 +126,7 @@ you want to check!
 
 // NEW FUNCTION — generates random 3 & 4 letter Steam IDs
 func generateRandomIDs() {
-	const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-"
+	const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
 	rand.Seed(time.Now().UnixNano())
 
 	var ids []string
