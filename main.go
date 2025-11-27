@@ -123,14 +123,10 @@ func showSplash() {
 ╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝    ╚═╝╚═════╝      ╚═════╝╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
                                                                                                                         
 ------------------------------------------------------------------------------------------------------------------------` + Cyan + `
-STEAM ID AVAILABILITY CHECKER — by ytax - https://oguser.com/clarke
-
-Send suggestions or report bugs at:` + Blue + ` https://github.com/ytax/steam-id-checker` + Cyan + `
+STEAM ID AVAILABILITY CHECKER — modified by v - @maakima on IG
 
 This software will check for IDs inside "` + Blue + `targets.txt` + Cyan + `" feel free to replace the content of this file with a list of IDs
 you want to check!
-
-By default targets.txt is loaded with some shitty semi-og IDs, this tool is very good for finding 3c, 3l, 4c and 4l IDs.
 
 I also recommend you to run the targets.txt file through a randomizer so you're not checking 
 the usernames in alphabetic order` + Blue + `
