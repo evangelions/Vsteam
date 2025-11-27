@@ -12,32 +12,6 @@ This is also my first program in Go, and something i decided to do for fun so th
 - **Progress tracking**: The tool remembers where it left off in case of interruptions.
 
 
-## Build Instructions
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/evangelions/Vsteam.git
-   ```
-
-2. Navigate to the project folder:
-
-   ```bash
-   cd steam-id-checker
-   ```
-
-3. Build the project:
-
-   ```bash
-   go build
-   ```
-
-4. Run the program:
-
-   ```bash
-   ./steamidcheck.exe
-   ```
-
 ## Usage
 
 When you run the tool, you'll be greeted with a menu to select your desired action. You can:
