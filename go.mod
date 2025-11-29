@@ -1,4 +1,4 @@
-module github.com/yTax/steam-id-checker
+module github.com/evangelions/Vsteam
 
 go 1.23.2
 
