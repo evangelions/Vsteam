@@ -1,27 +1,27 @@
 
 # Steam ID Checker
 
-This is a command-line tool written in Go that allows you to check the availability of Steam IDs.
-The program will check each Steam ID from your `targets.txt` file. If an ID is available, it will be saved to the `output.txt` file. The program will also track your progress, so you can stop and resume your session at any time.
+This is a cmd tool written in Go that allows you to check for thousands of available Steam IDs.
+With This tool you can check all usernames from the `targets.txt` file.. If a username is available, it will be saved in the `output.txt` file under the sessions folder. This tool will also track progress, so you can stop and resume your session at any time.
 
 ## Features
 
-- **Check Steam ID availability**: Check if a Steam ID is available or already claimed.
-- **Session management**: Create new sessions or resume existing ones.
-- **Progress tracking**: The tool remembers where it left off in case of interruptions.
+- **Check Steam ID availability**: Check if a Steam ID is available.
+- **Session management**: Create a new session or resume an existing one.
+- **Progress tracking**: Pick up where you left off in case of interruptions.
 - **Target generator**: Generates thousands of 3c/3l/4c/4l usernames in `targets.txt`.
   
 ## Download 
-get the win64 folder from the [release](https://github.com/evangelions/Vsteam/releases/tag/v1.4) page.
+Download the win64 folder from the [release](https://github.com/evangelions/Vsteam/releases/tag/v1.4) page.
 
 ## Usage
 
-When you run the tool, you'll be greeted with a menu to select your desired action. You can:
+When you run this tool, you'll see a menu to choose one of these actions:
 
-1. **Start a New Session**: Create a new session and begin checking Steam IDs from a `targets.txt` file.
-2. **Resume an Existing Session**: Choose an existing session to continue checking IDs.
+1. **Start a New Session**: Create a new session to begin checking usernames from your `targets.txt` file.
+2. **Resume an Existing Session**: Choose any existing session to continue checking.
 3. **Generate Random IDs**: Generates a list of random 3c/3l/4c/4l in the `targets.txt` file.
-4. **Exit**: Exit the program.
+4. **Exit**: Close the program.
 
 ## Issues
-- checker will currently give false positives for shadowbanned accounts (working on fix)
+- Checker will currently give false positives for shadowbanned accounts (working on fix)
